@@ -60,7 +60,7 @@ static int32_t MT48LC4M32B2_Delay(uint32_t Delay);
   * @param  pRegMode : Pointer to Register Mode stucture
   * @retval error status
   */
-int32_t MT48LC4M32B2_Init(SDRAM_HandleTypeDef *Ctx, MT48LC4M32B2_Context_t *pRegMode) 
+int32_t MT48LC4M32B2_Init(SDRAM_HandleTypeDef *Ctx, SDRAM_Context_t *pRegMode)
 {
   int32_t ret = MT48LC4M32B2_ERROR;
   
@@ -146,7 +146,7 @@ int32_t MT48LC4M32B2_Precharge(SDRAM_HandleTypeDef *Ctx, uint32_t Interface)
   * @param  pRegMode : Pointer to Register Mode stucture
   * @retval error status
   */
-int32_t MT48LC4M32B2_ModeRegConfig(SDRAM_HandleTypeDef *Ctx, MT48LC4M32B2_Context_t *pRegMode) 
+int32_t MT48LC4M32B2_ModeRegConfig(SDRAM_HandleTypeDef *Ctx, SDRAM_Context_t *pRegMode)
 {
   uint32_t tmpmrd;
 

@@ -1,21 +1,4 @@
-/* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -58,6 +41,9 @@ static void MX_FMC_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define EXT_RAM_SECTION __attribute__((section(".external_ram")))
+EXT_RAM_SECTION uint32_t extRamBuffer[1024*1024*2];
+#define NUM_BUFFER (0x1000000/(BUFFER_SIZE*4))
 
 #define SDRAM_ADD 0xC0000000
 #define BUFFER_SIZE ((uint32_t)0x1000)
@@ -111,39 +97,39 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Fill_Buffer(wdata,BUFFER_SIZE,0);
 
+  for(int i=0;i <NUM_BUFFER;i++)
+     {
+	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
+	   	{
+	 	  memcpy((uint32_t *) SDRAM_ADD, wdata, uwIndex);
+	     }
+
+	   	   	      //READ DATA FROM SDARM MEMORY
+	   for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
+	   	{
+	   	 memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
+	   	 }
+	   	   	      		//checking data integrity
+	   for(uwIndex=0;(uwIndex < BUFFER_SIZE) && uwWriteReadStatus==0;uwIndex++)
+	   	 {
+	   	  if(rdata[uwIndex]!=wdata[uwIndex])
+	   	   	 {
+	   	   	  uwWriteReadStatus++;
+	   	   	 }
+
+	   	 }
+	}
 
 
-  	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
-  	   	     {
-  		  	  memcpy((uint32_t *) SDRAM_ADD, wdata, uwIndex);
-  	   	      }
 
-  	   	      //READ DATA FROM SDARM MEMORY
-  	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
-  	   	   {
-  	   	       memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
-  	   	    }
-  	   	      		//checking data integrity
-  	  for(uwIndex=0;(uwIndex < BUFFER_SIZE) && uwWriteReadStatus==0;uwIndex++)
-  	   	    {
-  	   	      if(rdata[uwIndex]!=wdata[uwIndex])
-  	   	      	{
-  	   	      		uwWriteReadStatus++;
-  	   	      	}
 
-  	   	     }
 
-  /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
   }
-  /* USER CODE END 3 */
+
 }
 
 static void Fill_Buffer(uint32_t *pBuffer,uint32_t uwBufferLength,uint32_t uwOffset){
@@ -153,6 +139,7 @@ static void Fill_Buffer(uint32_t *pBuffer,uint32_t uwBufferLength,uint32_t uwOff
 	}
 
 }
+
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -206,15 +193,8 @@ void SystemClock_Config(void)
 static void MX_FMC_Init(void)
 {
 
-  /* USER CODE BEGIN FMC_Init 0 */
-
-  /* USER CODE END FMC_Init 0 */
 
   FMC_SDRAM_TimingTypeDef SdramTiming = {0};
-
-  /* USER CODE BEGIN FMC_Init 1 */
-
-  /* USER CODE END FMC_Init 1 */
 
   /** Perform the SDRAM1 memory initialization sequence
   */
@@ -246,17 +226,17 @@ static void MX_FMC_Init(void)
 
   /* USER CODE BEGIN FMC_Init 2 */
 
-  MT48LC4M32B2_Context_t MT48LC4M32B2;
-  MT48LC4M32B2.TargetBank      = FMC_SDRAM_CMD_TARGET_BANK1;  // changeable
-  MT48LC4M32B2.RefreshMode     = MT48LC4M32B2_AUTOREFRESH_MODE_CMD;
-  MT48LC4M32B2.RefreshRate     = REFRESH_COUNT;
-  MT48LC4M32B2.BurstLength     = MT48LC4M32B2_BURST_LENGTH_1;
-  MT48LC4M32B2.BurstType       = MT48LC4M32B2_BURST_TYPE_SEQUENTIAL;
-  MT48LC4M32B2.CASLatency      = MT48LC4M32B2_CAS_LATENCY_3;   // changeable
-  MT48LC4M32B2.OperationMode   = MT48LC4M32B2_OPERATING_MODE_STANDARD;
-  MT48LC4M32B2.WriteBurstMode  = MT48LC4M32B2_WRITEBURST_MODE_SINGLE;
+  SDRAM_Context_t SDRAM_FMC;
+  SDRAM_FMC.TargetBank      = FMC_SDRAM_CMD_TARGET_BANK1;  // changeable
+  SDRAM_FMC.RefreshMode     = MT48LC4M32B2_AUTOREFRESH_MODE_CMD;
+  SDRAM_FMC.RefreshRate     = REFRESH_COUNT;
+  SDRAM_FMC.BurstLength     = MT48LC4M32B2_BURST_LENGTH_1;
+  SDRAM_FMC.BurstType       = MT48LC4M32B2_BURST_TYPE_SEQUENTIAL;
+  SDRAM_FMC.CASLatency      = MT48LC4M32B2_CAS_LATENCY_3;   // changeable
+  SDRAM_FMC.OperationMode   = MT48LC4M32B2_OPERATING_MODE_STANDARD;
+  SDRAM_FMC.WriteBurstMode  = MT48LC4M32B2_WRITEBURST_MODE_SINGLE;
 
-  if (MT48LC4M32B2_Init(&hsdram1, &MT48LC4M32B2)!=MT48LC4M32B2_OK)
+  if (MT48LC4M32B2_Init(&hsdram1, &SDRAM_FMC)!=MT48LC4M32B2_OK)
   {
 	  Error_Handler();
   }

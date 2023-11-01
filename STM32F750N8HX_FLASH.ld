@@ -47,6 +47,7 @@ MEMORY
 {
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 320K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 64K
+   EXTERNAL_RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH =512K
 }
 
 /* Sections */
@@ -183,4 +184,7 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+   .external_ram(NOLOAD) :
+   {
+   }>EXTERNAL_RAM 
 }

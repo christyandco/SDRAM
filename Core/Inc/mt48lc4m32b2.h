@@ -1,25 +1,3 @@
-/**
-  ******************************************************************************
-  * @file    mt48lc4m32b2.h
-  * @author  MCD Application Team
-  * @brief   This file contains all the description of the MT48LC4M32B2 SDRAM
-  *          memory.
-  *
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef MT48LC4M32B2_H
 #define MT48LC4M32B2_H
 
@@ -60,7 +38,7 @@ typedef struct
   uint32_t CASLatency;           /*!< CAS Latency                             */
   uint32_t OperationMode;        /*!< Operation Mode                          */
   uint32_t WriteBurstMode;       /*!< Write Burst Mode                        */
-} MT48LC4M32B2_Context_t;
+} SDRAM_Context_t;
 
 /**
   * @}
@@ -101,10 +79,10 @@ typedef struct
 /** @addtogroup MT48LC4M32B2_Exported_Functions
   * @{
   */
-int32_t MT48LC4M32B2_Init(SDRAM_HandleTypeDef *Ctx, MT48LC4M32B2_Context_t *pRegMode);
+int32_t MT48LC4M32B2_Init(SDRAM_HandleTypeDef *Ctx, SDRAM_Context_t *pRegMode);
 int32_t MT48LC4M32B2_ClockEnable(SDRAM_HandleTypeDef *Ctx, uint32_t Interface);
 int32_t MT48LC4M32B2_Precharge(SDRAM_HandleTypeDef *Ctx, uint32_t Interface);
-int32_t MT48LC4M32B2_ModeRegConfig(SDRAM_HandleTypeDef *Ctx, MT48LC4M32B2_Context_t *pRegMode);
+int32_t MT48LC4M32B2_ModeRegConfig(SDRAM_HandleTypeDef *Ctx, SDRAM_Context_t *pRegMode);
 int32_t MT48LC4M32B2_TimingConfig(SDRAM_HandleTypeDef *Ctx, FMC_SDRAM_TimingTypeDef *pTiming);
 int32_t MT48LC4M32B2_RefreshMode(SDRAM_HandleTypeDef *Ctx, uint32_t Interface, uint32_t RefreshMode);
 int32_t MT48LC4M32B2_RefreshRate(SDRAM_HandleTypeDef *Ctx, uint32_t RefreshCount);
