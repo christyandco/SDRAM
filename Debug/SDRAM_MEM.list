@@ -576,13 +576,13 @@ int main(void)
  8000612:	2200      	movs	r2, #0
  8000614:	601a      	str	r2, [r3, #0]
  8000616:	e00c      	b.n	8000632 <main+0x52>
-	   	{
+	  	  {
 	 	  memcpy((uint32_t *) SDRAM_ADD, wdata, uwIndex);
  8000618:	4b2a      	ldr	r3, [pc, #168]	; (80006c4 <main+0xe4>)
  800061a:	681b      	ldr	r3, [r3, #0]
  800061c:	461a      	mov	r2, r3
  800061e:	4928      	ldr	r1, [pc, #160]	; (80006c0 <main+0xe0>)
- 8000620:	f04f 4040 	mov.w	r0, #3221225472	; 0xc0000000
+ 8000620:	f04f 5000 	mov.w	r0, #536870912	; 0x20000000
  8000624:	f002 f934 	bl	8002890 <memcpy>
 	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
  8000628:	4b26      	ldr	r3, [pc, #152]	; (80006c4 <main+0xe4>)
@@ -594,7 +594,7 @@ int main(void)
  8000634:	681b      	ldr	r3, [r3, #0]
  8000636:	f5b3 5f80 	cmp.w	r3, #4096	; 0x1000
  800063a:	d3ed      	bcc.n	8000618 <main+0x38>
-	     }
+	      }
 
 	   	   	      //READ DATA FROM SDARM MEMORY
 	   for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
@@ -602,12 +602,12 @@ int main(void)
  800063e:	2200      	movs	r2, #0
  8000640:	601a      	str	r2, [r3, #0]
  8000642:	e00c      	b.n	800065e <main+0x7e>
-	   	{
-	   	 memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
+	   	  {
+	   	   memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
  8000644:	4b1f      	ldr	r3, [pc, #124]	; (80006c4 <main+0xe4>)
  8000646:	681b      	ldr	r3, [r3, #0]
  8000648:	461a      	mov	r2, r3
- 800064a:	f04f 4140 	mov.w	r1, #3221225472	; 0xc0000000
+ 800064a:	f04f 5100 	mov.w	r1, #536870912	; 0x20000000
  800064e:	481e      	ldr	r0, [pc, #120]	; (80006c8 <main+0xe8>)
  8000650:	f002 f91e 	bl	8002890 <memcpy>
 	   for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
@@ -620,15 +620,15 @@ int main(void)
  8000660:	681b      	ldr	r3, [r3, #0]
  8000662:	f5b3 5f80 	cmp.w	r3, #4096	; 0x1000
  8000666:	d3ed      	bcc.n	8000644 <main+0x64>
-	   	 }
+	   	  }
 	   	   	      		//checking data integrity
 	   for(uwIndex=0;(uwIndex < BUFFER_SIZE) && uwWriteReadStatus==0;uwIndex++)
  8000668:	4b16      	ldr	r3, [pc, #88]	; (80006c4 <main+0xe4>)
  800066a:	2200      	movs	r2, #0
  800066c:	601a      	str	r2, [r3, #0]
  800066e:	e015      	b.n	800069c <main+0xbc>
-	   	 {
-	   	  if(rdata[uwIndex]!=wdata[uwIndex])
+	   	  {
+	   	   if(rdata[uwIndex]!=wdata[uwIndex])
  8000670:	4b14      	ldr	r3, [pc, #80]	; (80006c4 <main+0xe4>)
  8000672:	681b      	ldr	r3, [r3, #0]
  8000674:	4a14      	ldr	r2, [pc, #80]	; (80006c8 <main+0xe8>)

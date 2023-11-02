@@ -45,7 +45,7 @@ static void MX_FMC_Init(void);
 EXT_RAM_SECTION uint32_t extRamBuffer[1024*1024*2];
 #define NUM_BUFFER (0x1000000/(BUFFER_SIZE*4))
 
-#define SDRAM_ADD 0xC0000000
+#define SDRAM_ADD 0x20000000
 #define BUFFER_SIZE ((uint32_t)0x1000)
 uint32_t wdata[BUFFER_SIZE];
 uint32_t rdata[BUFFER_SIZE];
