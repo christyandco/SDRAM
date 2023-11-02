@@ -100,24 +100,24 @@ int main(void)
   for(int i=0;i <NUM_BUFFER;i++)
      {
 	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
-	   	{
+	  	  {
 	 	  memcpy((uint32_t *) SDRAM_ADD, wdata, uwIndex);
-	     }
+	      }
 
 	   	   	      //READ DATA FROM SDARM MEMORY
 	   for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
-	   	{
-	   	 memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
-	   	 }
+	   	  {
+	   	   memcpy(rdata, (uint32_t *) SDRAM_ADD, uwIndex);
+	   	  }
 	   	   	      		//checking data integrity
 	   for(uwIndex=0;(uwIndex < BUFFER_SIZE) && uwWriteReadStatus==0;uwIndex++)
-	   	 {
-	   	  if(rdata[uwIndex]!=wdata[uwIndex])
+	   	  {
+	   	   if(rdata[uwIndex]!=wdata[uwIndex])
 	   	   	 {
 	   	   	  uwWriteReadStatus++;
 	   	   	 }
 
-	   	 }
+	   	  }
 	}
 
 
