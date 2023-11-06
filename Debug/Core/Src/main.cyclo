@@ -1,10 +1,10 @@
 core_cm7.h:2229:22:SCB_EnableICache	1
 core_cm7.h:2281:22:SCB_EnableDCache	3
 main.c:46:5:_write	1
-main.c:81:5:main	7
-main.c:156:13:Fill_Buffer	2
-main.c:168:6:SystemClock_Config	4
-main.c:213:13:MX_USART1_UART_Init	2
-main.c:243:13:MX_FMC_Init	3
-main.c:302:13:MX_GPIO_Init	1
-main.c:767:6:Error_Handler	1
+main.c:82:5:main	6
+main.c:182:13:Fill_Buffer	2
+main.c:194:6:SystemClock_Config	4
+main.c:239:13:MX_USART1_UART_Init	2
+main.c:269:13:MX_FMC_Init	3
+main.c:328:13:MX_GPIO_Init	1
+main.c:793:6:Error_Handler	1

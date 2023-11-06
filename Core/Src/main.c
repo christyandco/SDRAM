@@ -63,12 +63,14 @@ EXT_RAM_SECTION uint32_t extRamBuffer[1024*1024*2];
 
 uint32_t wdata[BUFFER_SIZE];
 uint32_t rdata[BUFFER_SIZE];
+uint32_t buffer[BUFFER_SIZE];
 
 //Static variables
 __IO uint32_t uwWriteReadStatus=0;
 
 //counter index;
 uint32_t uwIndex=0;
+uint32_t ptr=0;
 
 static void Fill_Buffer(uint32_t *pBuffer,uint32_t uwBufferLength,uint32_t uwOffeset);
 /* USER CODE END 0 */
@@ -79,7 +81,6 @@ static void Fill_Buffer(uint32_t *pBuffer,uint32_t uwBufferLength,uint32_t uwOff
   */
 int main(void)
 {
-
 	/* Enable I-Cache---------------------------------------------------------*/
 	SCB_EnableICache();
 
@@ -109,19 +110,62 @@ int main(void)
 	printf("SDRAM TEST Demo...\r\n");
 	/* USER CODE BEGIN 2 */
 	Fill_Buffer(wdata,BUFFER_SIZE,0);
-
-	for(int i=0;i <NUM_BUFFER;i++)
+	printf(" buffer size %x\r\n", BUFFER_SIZE);
+	printf(" No. of buffers to write 200\r\n");
+	for(int i=0; i <0x250;i++)
 	{
 	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
-	  	  {
+	  {
 		  extRamBuffer[i*BUFFER_SIZE+uwIndex]=wdata[uwIndex];
+		 //printf("Memory write %x\r\n", uwIndex);
+	  }
+	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
+	  {
+		  rdata[uwIndex]= extRamBuffer[i*BUFFER_SIZE+uwIndex];
+	 	 // printf("Memory read  %x\r\n at %x", &rdata[uwIndex],i);
+		  buffer[uwIndex] = uwIndex % 256;
+		  int error = 0;
+		  if (buffer[uwIndex] != (uwIndex % 256))
+		  {
+			  error = 1;
+			  break;
+		  }
+		  if (error)
+		  {
+			  printf("Memory Read Error at %x\r\n", uwIndex);
+		  }
+		  else{
+			  printf("Completed\r\n" );
+		  }
+
+	  }
+
+	}
+
+	while (1)
+	{
+
+	}
+
+	 /*for(int i=0;i <NUM_BUFFER;i++)
+	{
+
+		  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
+
+	  	  {
+
+		 // extRamBuffer[i*BUFFER_SIZE+uwIndex]=wdata[uwIndex];
+
 	      }
 
+
 	  //READ DATA FROM SDARM MEMORY
-	  for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
+		 for(uwIndex=0;uwIndex < BUFFER_SIZE;uwIndex++)
 	   	  {
 		   rdata[uwIndex]= extRamBuffer[i*BUFFER_SIZE+uwIndex];
+
 	   	  }
+
 	   	   	      		//checking data integrity
 	   for(uwIndex=0;(uwIndex < BUFFER_SIZE) && uwWriteReadStatus==0;uwIndex++)
 	   	  {
@@ -131,21 +175,16 @@ int main(void)
 	   	   	 }
 
 	   	  }
-	}
 
-  while (1)
-  {
-
-  }
-
+	}*/
 }
 
 static void Fill_Buffer(uint32_t *pBuffer,uint32_t uwBufferLength,uint32_t uwOffset){
 	uint32_t tmpIndex=0;
-	for(tmpIndex=0;tmpIndex < uwBufferLength;tmpIndex++){
+	for(tmpIndex=0;tmpIndex < uwBufferLength;tmpIndex++)
+	{
 		pBuffer[tmpIndex]=tmpIndex+uwOffset;
 	}
-
 }
 
 /**
